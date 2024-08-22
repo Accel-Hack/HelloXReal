@@ -8,6 +8,12 @@
 - [Android Studio](https://developer.android.com/studio?hl=ja) (option)
   - ほしいのはAndroid SDK
   - UnityからもAndroid SDKをインストールできたのでいらないかも
+- 注意
+- Getting Started with NRSDKの記述に　加えて/反して　、以下の設定をすると動作した
+  - Project Settings > Player > Other Settings > Minimum API Level をAndroid 10.0にする
+  - Project Settings > Player > Other Settings > Target API Level をAndroid 13.0にする
+    - Android 14.0からの動作の変更が原因と考えられる。https://developer.android.com/about/versions/14/behavior-changes-14?hl=ja#safer-dynamic-code-loading
+  - Project Settings > Player > Other Settings > Allow 'unsafe' Code をtrueにする
 
 [Getting Started with NRSDK]: https://xreal.gitbook.io/nrsdk/nrsdk-fundamentals/quickstart-for-android#configure-adapted-devices-optional
 
