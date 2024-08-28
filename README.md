@@ -33,3 +33,5 @@
 > https://developer.android.com/tools/adb?hl=ja
 
 - Sumsung Galaxy 23S側で、Sumsung dexをオフにしないとXRealがいい感じに検出されなかった
+
+- You can plant flowers in Assets > NRSDK > Demos > HelloMR scene.
