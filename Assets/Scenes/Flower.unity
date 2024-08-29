@@ -474,53 +474,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b76c07b35799f964b88ea24bca4cbb08, type: 3}
---- !u!1 &918457233
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 918457235}
-  - component: {fileID: 918457234}
-  m_Layer: 0
-  m_Name: Car Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &918457234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918457233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af1d5ae18f17a49eb83b55066d97657d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CarPrefab: {fileID: 6378763645007927171, guid: e5b76e4e2953b40899e6eb98c85b5f32, type: 3}
-  Reticle: {fileID: 665293220}
-  Car: {fileID: 0}
---- !u!4 &918457235
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918457233}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.00022597238, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &927502771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -580,6 +533,17 @@ PrefabInstance:
       addedObject: {fileID: 556078737}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad152f08ed7eb6e4abd93376a0203e38, type: 3}
+--- !u!114 &1035583223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114927555675577312, guid: 9e73c86b401a7c34cb70b4dcaf94be65, type: 3}
+  m_PrefabInstance: {fileID: 556078736}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cde94f66f44a9479ef82d655daf234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1512658767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1067,7 +1031,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a57e36dd56294df5bad5208ceb46da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AndyPlanePrefab: {fileID: 100000, guid: 41ba2a6f1d128f94eba95e5213a81254, type: 3}
+  leftPointer: {fileID: 1035583223}
+  flowers:
+  - {fileID: 2437060472035970996, guid: fb10ecd4ab18e854e9b2b81f4e7299ff, type: 3}
+  - {fileID: 3673598350010199113, guid: 16d0c4a163f8e664d8b8c8cac3c559ee, type: 3}
+  - {fileID: 6517693434837023953, guid: d937ce3709552a741881a9b979528977, type: 3}
+  - {fileID: 418510723515670177, guid: e0036fd334e46b444994ebf436a0fa98, type: 3}
+  - {fileID: 7077117246532234669, guid: 0a4b01fff2c53504684597bbb2da7e65, type: 3}
+  - {fileID: 2450889928358901224, guid: a2769755c56ee3348b903e56d8016e86, type: 3}
+  - {fileID: 8115716307668009260, guid: c22ffa1f3450b6c42bd58e142561b142, type: 3}
+  - {fileID: 6894346598057073830, guid: e3d4a0f8686f0b44b9bfd34e70fd1a8b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1079,4 +1052,3 @@ SceneRoots:
   - {fileID: 1829009631}
   - {fileID: 564377737}
   - {fileID: 665293218}
-  - {fileID: 918457235}

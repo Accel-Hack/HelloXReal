@@ -8,6 +8,9 @@
 *****************************************************************************/
 
 using UnityEngine;
+using UnityEngine.EventSystems;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NRKernal.NRExamples
 {
@@ -15,39 +18,56 @@ namespace NRKernal.NRExamples
     [HelpURL("https://developer.xreal.com/develop/unity/controller")]
     public class FlowerController : MonoBehaviour
     {
-        /// <summary> A model to place when a raycast from a user touch hits a plane. </summary>
-        public GameObject AndyPlanePrefab;
+        private const float COOLTIME = 2.0f;
+        private bool switchIsNotCoolingDown = true;
+        private bool instantiateIsNotCoolingDown = true;
+        private int currentIndex = 0;
+        private readonly WaitForSeconds twosec = new(COOLTIME);
+        [SerializeField] NRPointerRaycaster leftPointer;
+        [SerializeField] List<GameObject> flowers;
 
         /// <summary> Updates this object. </summary>
         void Update()
         {
-            HandState handState = NRInput.Hands.GetHandState(HandEnum.RightHand);
-
-            // If the player doesn't click the trigger button, we are done with this update.
-            if (!handState.isPinching)
-            {
-                return;
-            }
-
-            // Get controller laser origin.
-            var handControllerAnchor = NRInput.DomainHand == ControllerHandEnum.Left ? ControllerAnchorEnum.LeftLaserAnchor : ControllerAnchorEnum.RightLaserAnchor;
-            Transform laserAnchor = NRInput.AnchorsHelper.GetAnchor(NRInput.RaycastMode == RaycastModeEnum.Gaze ? ControllerAnchorEnum.GazePoseTrackerAnchor : handControllerAnchor);
-
-            RaycastHit hitResult;
-            if (Physics.Raycast(new Ray(laserAnchor.transform.position, laserAnchor.transform.forward), out hitResult, 10))
-            {
-                if (hitResult.collider.gameObject != null && hitResult.collider.gameObject.GetComponent<NRTrackableBehaviour>() != null)
-                {
-                    var behaviour = hitResult.collider.gameObject.GetComponent<NRTrackableBehaviour>();
-                    if (behaviour.Trackable.GetTrackableType() != TrackableType.TRACKABLE_PLANE)
-                    {
-                        return;
+            HandState handState = NRInput.Hands.GetHandState(HandEnum.LeftHand);
+            switch (handState.currentGesture) {
+                case HandGesture.Pinch:
+                    if (switchIsNotCoolingDown) {
+                        currentIndex++;
+                        if (currentIndex >= flowers.Count) {
+                            currentIndex = 0;
+                        }
+                        StartCoroutine(CoolSwitchDown());
                     }
+                    break;
+                case HandGesture.Point:
+                    if (instantiateIsNotCoolingDown) {
+                        RaycastResult result = leftPointer.FirstRaycastResult();
+                        if (result.gameObject != null && result.gameObject.GetComponent<NRTrackableBehaviour>() != null) {
+                            var behaviour = result.gameObject.GetComponent<NRTrackableBehaviour>();
+                            if (behaviour.Trackable.GetTrackableType() != TrackableType.TRACKABLE_PLANE)
+                            {
+                                return;
+                            }
 
-                    // Instantiate Andy model at the hit point / compensate for the hit point rotation.
-                    Instantiate(AndyPlanePrefab, hitResult.point, Quaternion.identity, behaviour.transform);
-                }
+                            // Instantiate Andy model at the hit point / compensate for the hit point rotation.
+                            Instantiate(flowers[currentIndex], result.worldPosition, Quaternion.identity, behaviour.transform);
+                        }
+                        StartCoroutine(CoolInstantiateDown());
+                    }
+                    break;
             }
+        }
+        private IEnumerator CoolSwitchDown() {
+            switchIsNotCoolingDown = false;
+            yield return twosec;
+            switchIsNotCoolingDown = true;
+        }
+
+        private IEnumerator CoolInstantiateDown() {
+            instantiateIsNotCoolingDown = false;
+            yield return twosec;
+            instantiateIsNotCoolingDown = true;
         }
     }
 }

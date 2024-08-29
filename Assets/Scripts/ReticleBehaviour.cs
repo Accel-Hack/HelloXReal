@@ -31,6 +31,12 @@ public class ReticleBehaviour : MonoBehaviour
                 CurrentPlane = hit;
                 transform.position = hitResult.point;
                 Child.SetActive(true);
+                HandState handstate = NRInput.Hands.GetHandState(HandEnum.LeftHand);
+                if (handstate.isPinching) {
+                    Child.transform.localScale = new Vector3(2, 2, 2);
+                } else {
+                    Child.transform.localScale = new Vector3(1, 1, 1);
+                }
             }
             else
             {
