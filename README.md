@@ -34,4 +34,10 @@
 
 - Sumsung Galaxy 23S側で、Sumsung dexをオフにしないとXRealがいい感じに検出されなかった
 
-- You can plant flowers in Assets > NRSDK > Demos > HelloMR scene.
+- You can plant in Assets > Scenes > Flower scene.
+- You can indicate controller status in Assets > Scenes > IndicateController scene.
+
+- NRSDKのAPIは、using NRKernal; で使用できる。
+- 手の動きを反映するには、NRHand_R/Lプレハブを、NRInput > Right/Left の子オブジェクトとしてシーンに配置し、NRInput  ゲームオブジェクトのNRInput > Input Source TypeをHandsに変更する
+- ハンドジェスチャーの使い方は、https://xreal.gitbook.io/nrsdk/development/hand-trackingが参考になる
+- 手から出るレイは、NRHand_R/LプレハブのNRHandPointer_R/L子オブジェクトのRayCasterコンポーネントで使用する
