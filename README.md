@@ -41,3 +41,11 @@
 - 手の動きを反映するには、NRHand_R/Lプレハブを、NRInput > Right/Left の子オブジェクトとしてシーンに配置し、NRInput  ゲームオブジェクトのNRInput > Input Source TypeをHandsに変更する
 - ハンドジェスチャーの使い方は、https://xreal.gitbook.io/nrsdk/development/hand-trackingが参考になる
 - 手から出るレイは、NRHand_R/LプレハブのNRHandPointer_R/L子オブジェクトのRayCasterコンポーネントで使用する
+
+- m3u8ファイルによるストリーミングは、HISPlayerというunitypackageから行う
+- HISPlayerは無料デモ版を使っている。動画ストリーミングを製品に組み込むなら、ライセンスに注意
+- https://github.com/HISPlayer/Unity_Video_Player/releases/tag/v3.4.1
+- ストリーミングツールには、NexPlayerというunitypackageもある。特段比較をしていないため、動画ストリーミングを製品に組み込むなら要検討
+- リアルタイムのストリーミングには、Flutterというフレームワークがあるらしい
+
+- 外部サーバからのリソースの取得には、UnityWebRequestAssetBundleを用いる
