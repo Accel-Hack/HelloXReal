@@ -1,0 +1,60 @@
+Unity Editor version:    2022.3.43f1 (85497d293fa1)
+Branch:                  2022.3/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 14.6 (Build 23G80)
+Darwin version:          23.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to the License Client on channel: "LicenseClient-akaskakotaro" at "2024-09-05T07:56:15.130024Z"
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.15.5'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-akaskakotaro"
+[Licensing::IpcConnector] License Client channel disconnected successfully.
+[Licensing::IpcConnector] Successfully connected to the License Client on channel: "LicenseClient-akaskakotaro-2022.3.43" at "2024-09-05T07:56:15.361193Z"
+[Licensing::Client] Error: Code 1 while verifying Licensing Client signature (process Id: 800, path: "/Users/akaskakotaro/2022.3.43f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client")
+[Licensing::Module] Error: LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.15.5+a2f8afb
+  Session Id:              4bb697e3c24d4a83a5583e3f9c88d79b
+  Correlation Id:          0869b625d63c0ec0494ccfb7cae41967
+  External correlation Id: 1723172155682439260
+  Machine Id:              V0GBRLVmbALwQRqvuUOTu+xIlv4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-akaskakotaro-2022.3.43" (connect: 0.00s, validation: 0.01s, handshake: 0.01s)
+[Licensing::IpcConnector] Successfully connected to the License Notification on channel: "LicenseClient-akaskakotaro-2022.3.43-notifications" at "2024-09-05T07:56:15.381387Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully updated license
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Serial number assigned to: "F4-EC6G-CG7E-954G-HTRQ-XXXX"
+Pro License: NO
+[Licensing::Client] Successfully resolved entitlement details
+Launching external process: /Users/akaskakotaro/2022.3.43f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Users/akaskakotaro/2022.3.43f1/Unity.app/Contents/MacOS/Unity
+-quit
+-batchmode
+-projectPath
+/Users/akaskakotaro/Documents/HelloXReal/HelloXReal
+-executeMethod
+BuildAssetBundles.BuildAllAssetBundles
+-assetPath
+model.fbx
+-logFile
+/Users/akaskakotaro/Documents/HelloXReal/HelloXReal/AssetBundleBuilder/build_log.txt
+Successfully changed project path to: /Users/akaskakotaro/Documents/HelloXReal/HelloXReal
+/Users/akaskakotaro/Documents/HelloXReal/HelloXReal
+It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/akaskakotaro/Documents/HelloXReal/HelloXReal
+Fatal Error! It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/akaskakotaro/Documents/HelloXReal/HelloXReal
+[Package Manager] Server::Kill -- Server was shutdown
