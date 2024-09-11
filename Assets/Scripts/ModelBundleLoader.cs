@@ -1,25 +1,19 @@
-using System;
+using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
-public class Getbundle : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-        StartCoroutine(DownLoad()); 
-	}
-
-    IEnumerator DownLoad()
+public class ModelBundleLoader : MonoBehaviour
+{
+    void Start()
     {
-        string bundleUrl = Application.streamingAssetsPath + "/testbundle";
-        AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(bundleUrl);
-        while (!request.isDone)
+        // If it is release version, path should involve Application.streamingAssetsPath.
+        var myLoadedAssetBundle = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "external"));
+
+        if (myLoadedAssetBundle == null)
         {
-            yield return null;
+            Debug.Log("Failed to load AssetBundle!");
+            return;
         }
-        AssetBundle assetBundle = request.assetBundle;
-        AssetBundleRequest image = assetBundle.LoadAssetAsync<GameObject>("Sphere");
-        Instantiate(image.asset, new Vector3(0, 0, 10), Quaternion.identity);
+        var prefab = myLoadedAssetBundle.LoadAsset<GameObject>("model.fbx");
+        Instantiate(prefab, new Vector3(0, 0, 10), Quaternion.identity);
     }
 }

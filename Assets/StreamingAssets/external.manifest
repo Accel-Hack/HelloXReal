@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 2372578691
+CRC: 1355314166
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e75474e3c8c68f7e83f72f4cc292e857
+    Hash: 8a1a2a7fad6880e12beba8f19b2a7492
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 52d98f26dac52af9a4aebe27e283fb1e
+    Hash: 0f9fba26cbb38215f317d1fd6b1954a0
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: e75474e3c8c68f7e83f72f4cc292e857
+    Hash: 8a1a2a7fad6880e12beba8f19b2a7492
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -26,9 +26,7 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
-- Class: 135
-  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Sphere.prefab
+- Assets/model.fbx
 Dependencies: []
