@@ -34,18 +34,35 @@
 
 - Sumsung Galaxy 23S側で、Sumsung dexをオフにしないとXRealがいい感じに検出されなかった
 
+# シーンの説明
 - You can plant in Assets > Scenes > Flower scene.
 - You can indicate controller status in Assets > Scenes > IndicateController scene.
 
+# NRSDKの、ハンドジェスチャーによる入力
 - NRSDKのAPIは、using NRKernal; で使用できる。
 - 手の動きを反映するには、NRHand_R/Lプレハブを、NRInput > Right/Left の子オブジェクトとしてシーンに配置し、NRInput  ゲームオブジェクトのNRInput > Input Source TypeをHandsに変更する
 - ハンドジェスチャーの使い方は、https://xreal.gitbook.io/nrsdk/development/hand-trackingが参考になる
 - 手から出るレイは、NRHand_R/LプレハブのNRHandPointer_R/L子オブジェクトのRayCasterコンポーネントで使用する
 
+# ストリーミングについて
 - m3u8ファイルによるストリーミングは、HISPlayerというunitypackageから行う
 - HISPlayerは無料デモ版を使っている。動画ストリーミングを製品に組み込むなら、ライセンスに注意
 - https://github.com/HISPlayer/Unity_Video_Player/releases/tag/v3.4.1
 - ストリーミングツールには、NexPlayerというunitypackageもある。特段比較をしていないため、動画ストリーミングを製品に組み込むなら要検討
 - リアルタイムのストリーミングには、Flutterというフレームワークがあるらしい
 
+# 外部サーバからのリソース取得について
+- アプリケーション実行時に、AR空間に配置する3Dオブジェクトとそのアニメーション(以下、リソース)を外部サーバから受け取るとする
+- リソースは、画像かAssetBundleという形式でないと、動的に読み込むことができない
+- リソースからAssetBundleを作る(そしてサーバに乗せる)コマンドラインツールと、サーバからリソースを受け取るARアプリケーションを分割する
+
+# リソースからAssetBundleを作るツールについて
+- AssetBundleBuilder/build.sh
+- 以下の4つのコマンドから成る
+  - UnityProject/Assetsへ、リソースをコピーする
+  - Unityを操作し、コピーしたリソースを読み込む
+  - リソースのmetaファイルを書き換え、AssetBundleのビルド対象にする
+  - Unityを操作し、AssetBundleをビルドする。UnityProject/StreamingAssets/externalにビルドされる
+
+# AssetBundleを受け取るARアプリケーションについて
 - 外部サーバからのリソースの取得には、UnityWebRequestAssetBundleを用いる
