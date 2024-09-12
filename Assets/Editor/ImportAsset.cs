@@ -6,6 +6,10 @@ class ImportAssetScript
 {
      static void PerformImport()
      {
-		AssetDatabase.ImportAsset(Path.Combine(Application.dataPath, "model.fbx"), ImportAssetOptions.Default);
+          string path = Path.Combine(Application.dataPath, "model.fbx");
+
+          // Import model.fbx from local file. This step produces model.fbx.meta.
+		AssetDatabase.ImportAsset(path, ImportAssetOptions.Default);
+
      }
 }
