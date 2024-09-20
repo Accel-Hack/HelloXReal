@@ -27,7 +27,7 @@ public class ModelBundleLoader : MonoBehaviour
         var prefab = myLoadedAssetBundle.LoadAsset<GameObject>("model.fbx");
 
         // Instantiate fbx as GameObject.
-        GameObject model = Instantiate(prefab, new Vector3(0, 0, 10), Quaternion.identity);
+        GameObject model = Instantiate(prefab, new Vector3(0, 0, 9), Quaternion.identity);
 
         // Add an Animator Component.
         Animator animator = model.AddComponent<Animator>();
