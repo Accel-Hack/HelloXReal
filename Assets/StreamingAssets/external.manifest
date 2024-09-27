@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1515255160
+CRC: 681073599
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1d7159f1aafe6339737ce4f736de378b
+    Hash: df98f7d01bf35af0420d5e5ada99a128
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0f9fba26cbb38215f317d1fd6b1954a0
+    Hash: be3a7258fceaf89d1c25484409f62186
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 1d7159f1aafe6339737ce4f736de378b
+    Hash: df98f7d01bf35af0420d5e5ada99a128
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -18,15 +18,19 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 21
   Script: {instanceID: 0}
-- Class: 23
-  Script: {instanceID: 0}
-- Class: 33
-  Script: {instanceID: 0}
 - Class: 43
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/model.fbx
+- Assets/model.prefab
 Dependencies: []
