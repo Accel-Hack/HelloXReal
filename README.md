@@ -56,18 +56,5 @@
 - リソースは、画像かAssetBundleという形式でないと、動的に読み込むことができない
 - リソースからAssetBundleを作る(そしてサーバに乗せる)コマンドラインツールと、サーバからリソースを受け取るARアプリケーションを分割する
 
-## リソースからAssetBundleを作るツールについて
-- AssetBundleBuilder/build.sh
-- 以下の4つのコマンドから成る
-  - UnityProject/Assetsへ、リソースをコピーする
-  - Unityを操作し、コピーしたリソースを読み込む
-  - リソースのmetaファイルを書き換え、AssetBundleのビルド対象にする
-  - Unityを操作し、AssetBundleをビルドする。UnityProject/StreamingAssets/externalにビルドされる
-
 ## AssetBundleを受け取るARアプリケーションについて
 - 外部サーバからのリソースの取得には、UnityWebRequestAssetBundleを用いる
-
-# 20240912
-UnityEditor名前空間のクラスを用いるコンポーネントは、ビルド環境で動かない。
-AnimationClipの選択のために、AnimatorControllerを用いる必要があるが、これがUnityEditor名前空間にある。
-そこで、fbxファイルからゲームオブジェクトを作り、それにAnimatorControllerをアタッチし、AnimationClipを選択した上で、プレハブを作るエディタースクリプトを作り、ARアプリケーションの起動前に走らせようとしている。しかし、fbxからプレハブを作る際にメッシュの参照が外れてしまう問題に直面している。
