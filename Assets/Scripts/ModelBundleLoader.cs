@@ -17,15 +17,15 @@ public class ModelBundleLoader : MonoBehaviour
         StartCoroutine(Request());        
     }
 
-    private IEnumerator Request() 
+    private IEnumerator Request()   // A coroutine runs as a subprocess.
     {
         UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("http://192.168.50.110:8000/external");
         text.text = "loading";
-        yield return www.SendWebRequest();
+        yield return www.SendWebRequest();  // Wait until loading completed.
         if (www.result != UnityWebRequest.Result.Success) {
             Debug.LogError(www.error);
             text.text = www.error;
-            yield break;
+            yield break;    // End this coroutine.
         }
         AssetBundle myLoadedAssetBundle = DownloadHandlerAssetBundle.GetContent(www);
 

@@ -35,17 +35,24 @@
 - Sumsung Galaxy 23S側で、Sumsung dexをオフにしないとXRealがいい感じに検出されなかった
 
 # シーンの説明
-- You can plant in Assets > Scenes > Flower scene.
-- You can indicate controller status in Assets > Scenes > IndicateController scene.
+- Unityでは、ゲーム空間を作ることができ、それぞれの空間をシーンとして保存・再生できる。
+- シーンは、エディタ画面のAssets > Scenesから切り替えられる。
+- Flowerシーンでは、ハンドジェスチャーで植物を配置できる。
+- IndicateControllerシーンでは、入力が画面に表示される。
+- HISシーンでは、動画のストリーミング再生を行っている。
+- DynamicModelシーンでは、サーバから3Dモデルをダウンロードし、空間に配置する。
+- Stickmanシーンでは、MediaPipeが出力する関節座標群を受け取り、シーン中の棒人間の姿勢に反映する。
 
 # NRSDKの、ハンドジェスチャーによる入力
-- NRSDKのAPIは、using NRKernal; で使用できる。
-- 手の動きを反映するには、NRHand_R/Lプレハブを、NRInput > Right/Left の子オブジェクトとしてシーンに配置し、NRInput  ゲームオブジェクトのNRInput > Input Source TypeをHandsに変更する
+- NRSDKのAPIは、NRKernal名前空間にある。
+ - c#ソースコードの最初に、using NRKernal;と記述することで、使用できる。
+- 手の動きを反映するには、NRHand_R/Lプレハブを、NRInput > Right/Left の子オブジェクトとしてシーンに配置し、NRInput  ゲームオブジェクトのNRInput > Input Source TypeをHandsに変更する。
 - ハンドジェスチャーの使い方は、https://xreal.gitbook.io/nrsdk/development/hand-trackingが参考になる
-- 手から出るレイは、NRHand_R/LプレハブのNRHandPointer_R/L子オブジェクトのRayCasterコンポーネントで使用する
+- 手から出るレイは、NRHand_R/LプレハブのNRHandPointer_R/L子オブジェクトのRayCasterコンポーネントで使用する。
 
 # ストリーミングについて
-- m3u8ファイルによるストリーミングは、HISPlayerというunitypackageから行う
+- m3u8ファイルによるストリーミングは、HISPlayerというunitypackageから行う。
+ - m3u8は、一般的な動画ストリーミング用フォーマットである。
 - HISPlayerは無料デモ版を使っている。動画ストリーミングを製品に組み込むなら、ライセンスに注意
 - https://github.com/HISPlayer/Unity_Video_Player/releases/tag/v3.4.1
 - ストリーミングツールには、NexPlayerというunitypackageもある。特段比較をしていないため、動画ストリーミングを製品に組み込むなら要検討
@@ -54,7 +61,16 @@
 # 外部サーバからのリソース取得について
 - アプリケーション実行時に、AR空間に配置する3Dオブジェクトとそのアニメーション(以下、リソース)を外部サーバから受け取るとする
 - リソースは、画像かAssetBundleという形式でないと、動的に読み込むことができない
-- リソースからAssetBundleを作る(そしてサーバに乗せる)コマンドラインツールと、サーバからリソースを受け取るARアプリケーションを分割する
+- DynamicModelでは、別リポジトリのBuildAssetBundleがビルドしたAssetBundleをロードして、シーンに配置している。
+- サーバからのAssetBundleのロード、リソースの取り出し、配置は、ModelBundleLoader.csが行っている。
+ - UnityWebRequestAssetBundle.GetAssetBundleで、サーバからAssetBundleを取得するリクエストを作る。
+ - UnityWebRequest.SendWebRequestで、サーバにリクエストを送る。
+ - DownloadHandlerAssetBundle.GetContentで、レスポンスからAssetBundleを得る。
+ - AssetBundle.LoadAssetで、AssetBundleからリソースを取り出す。
 
-## AssetBundleを受け取るARアプリケーションについて
-- 外部サーバからのリソースの取得には、UnityWebRequestAssetBundleを用いる
+# Stickmanについて
+- MediaPipeは、人間が写った写真や動画から、関節(特徴点)群の三次元座標を予測することができる。
+- MediaPipeのPythonコードから、文字列として、関節座標群を受け取るとして、その姿勢を反映した棒人間を生成している。
+- 各関節をグラフ構造のノードとして、骨格を形成している。
+- StickmanNodeは、関節=ノードを定義している。
+- StickmanCreaterは、MediaPipe出力の文字列を元に、StickmanNodeを生成し、組み合わせて、棒人間を作っている。
