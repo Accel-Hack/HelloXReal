@@ -73,4 +73,7 @@
 - MediaPipeのPythonコードから、文字列として、関節座標群を受け取るとして、その姿勢を反映した棒人間を生成している。
 - 各関節をグラフ構造のノードとして、骨格を形成している。
 - StickmanNodeは、関節=ノードを定義している。
-- StickmanCreaterは、MediaPipe出力の文字列を元に、StickmanNodeを生成し、組み合わせて、棒人間を作っている。
+- MediapipeReceiverは、MediaPipeの出力を文字列として受け取り、List<\List<\Vector3>>を作っている。
+ - 内側のリストは、ある時刻=フレームの、それぞれの関節の座標群
+ - 外側のリストは、フレーム群
+- StickmanCreaterは、MediaPipeReceiverの出力を元に、StickmanNodeを生成し、組み合わせて、棒人間を作っている。
