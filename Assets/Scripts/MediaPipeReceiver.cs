@@ -10,8 +10,8 @@ public class MediaPipeReceiver
     // Read string from mediapipe and create List of positions of each joint.
     public static List<Vector3> ReadJoints(string positions)
     {
-        // 不要な文字を削除（括弧やスペースなど）
-        positions = positions.Trim('[', ']', ' ');
+        // 前後の不要な文字を削除（括弧やスペースなど）
+        positions = positions.Trim('[', ']', ' ', '\n');
 
         // 各タプルの文字列を分割
         string[] tupleStrings = positions.Split(new[] { "), (" }, StringSplitOptions.None);

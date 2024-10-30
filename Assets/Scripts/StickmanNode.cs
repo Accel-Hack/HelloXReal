@@ -6,6 +6,7 @@ using UnityEngine;
 public class StickmanNode
 {
     // Information between neighbor joint.
+    // Neighbor joint itself and the bone sharing with it.
     class NeighborInformation
     {
         public GameObject bone;
@@ -18,7 +19,7 @@ public class StickmanNode
         }
     }
 
-    private const float BONE_THICKNESS = 0.1f;
+    private const float BONE_THICKNESS = 0.5f;
     private string name;
     private int id;
     private GameObject sphere;
@@ -44,6 +45,7 @@ public class StickmanNode
     {
         this.sphere = GameObject.Instantiate(sphere, this.position, Quaternion.identity, parent);
         this.sphere.name = this.name;
+        this.sphere.transform.localScale = StickmanCreater.MAGNIFICATION * StickmanCreater.PREFAB_SCALE_FOR_MAGNIFICATION * Vector3.one;
         foreach (NeighborInformation info in this.neighbors) {
             if (info.bone == null) {
                 info.bone = this.InstantiateBone(cube, this.position, info.neighbor.position, parent);
@@ -64,19 +66,26 @@ public class StickmanNode
         return bone;
     }
 
-    // Place bone at coordinates of its head and tail.
+    // Place a bone at coordinates of its head and tail.
     private void ReplaceBone(GameObject bone, Vector3 head, Vector3 tail)
     {
         bone.transform.position = (head + tail) / 2;
         float length = (tail - head).magnitude;
-        bone.transform.localScale = new Vector3(BONE_THICKNESS, BONE_THICKNESS, length);
+        bone.transform.localScale = new Vector3(
+            BONE_THICKNESS * StickmanCreater.MAGNIFICATION * StickmanCreater.PREFAB_SCALE_FOR_MAGNIFICATION, 
+            BONE_THICKNESS * StickmanCreater.MAGNIFICATION * StickmanCreater.PREFAB_SCALE_FOR_MAGNIFICATION, 
+            length
+        );
         bone.transform.LookAt(tail);
+        bone.transform.position += StickmanCreater.stickmanPosition;
     }
 
-    public void Pose(List<Vector3> joints)  // not optimized
+    // Place a joint at a coordinate. This also call ReplaceBone to make the bones follow the joints.
+    // TODO: Not optimized. Each bone moves twice...
+    public void Pose(List<Vector3> joints)
     {
         this.position = joints[this.id];
-        this.sphere.transform.position = joints[this.id];
+        this.sphere.transform.position = joints[this.id] + StickmanCreater.stickmanPosition;
         foreach (NeighborInformation info in this.neighbors) {
             this.ReplaceBone(info.bone, this.position, info.neighbor.position);
         }

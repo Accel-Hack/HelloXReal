@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/DynamicModel.unity
-    guid: 71a4b59f5b4504ea6be3040f3db58556
+    path: Assets/Scenes/GUIStickman.unity
+    guid: f62372c09e3ad44c9946c25397a2ecdf
   m_configObjects: {}
