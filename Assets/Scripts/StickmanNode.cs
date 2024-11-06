@@ -27,12 +27,12 @@ public class StickmanNode
     private List<NeighborInformation> neighbors;
 
     // Constructor for each node.
-    public StickmanNode(string name, int id, StickmanNode[] neighbors, List<Vector3> joints)
+    public StickmanNode(string name, int id, StickmanNode[] neighbors)
     {
         this.name = name;
         this.id = id;
         this.sphere = null;
-        this.position = joints[id];
+        this.position = Vector3.zero;
         this.neighbors = new List<NeighborInformation>();
         foreach (StickmanNode neighbor in neighbors) {
             this.neighbors.Add(new NeighborInformation(neighbor));

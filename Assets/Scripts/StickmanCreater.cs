@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using System.Globalization;
-using System;
 
 public class StickmanCreater : MonoBehaviour
 {
@@ -25,7 +22,6 @@ public class StickmanCreater : MonoBehaviour
     // Origin of mediapipe-output space. Calculated on the first frame.
     private Vector3 origin;
 
-
     // Stop update until loading model completed.
     private bool initialized = false;
 
@@ -42,23 +38,12 @@ public class StickmanCreater : MonoBehaviour
     [SerializeField] GameObject sphere;
     [SerializeField] GameObject cube;
 
-    // Start is called before the first frame update
-    IEnumerator Start()
+    private void Start()
     {
-        string url = "http://192.168.50.110:8000/mediapipe.txt";
-        Coroutine download = StartCoroutine(DownloadTextFile(url));
-        yield return download;  // Wait until finish downloading.
-        frames = MediaPipeReceiver.ReadSequence(sequence);
-        for (int i = 0; i < frames.Count; i++) {
-            for (int j = 0; j < frames[i].Count; j++) {
-                frames[i][j] *= MAGNIFICATION;
-            }
+        this.nodes = ConstructSkeleton();
+        foreach (StickmanNode node in this.nodes) {
+            node.Instantiate(this.sphere, this.cube, this.stickman.transform);
         }
-        nodes = ConstructSkeleton(frames[0]);
-        foreach (StickmanNode node in nodes) {
-            node.Instantiate(sphere, cube, stickman.transform);
-        }
-        initialized = true;
     }
 
     // Update is called once per frame
@@ -67,13 +52,33 @@ public class StickmanCreater : MonoBehaviour
         if (!this.initialized || !this.isPlaying) {
             return;
         }
-        foreach (StickmanNode node in nodes) {
+        foreach (StickmanNode node in this.nodes) {
             // node.Pose(frames[animationFrame / TIMESCALE]);
-            node.Pose(this.LeapFrames((float) animationFrame / TIMESCALE));
+            node.Pose(this.LeapFrames((float) this.animationFrame / TIMESCALE));
         }
-        if (animationFrame < (frames.Count - 2) * TIMESCALE) {
-            animationFrame++;
+        if (this.animationFrame < (this.frames.Count - 2) * TIMESCALE) {
+            this.animationFrame++;
         }
+    }
+
+    public void InitializeWithSequence(string sequence)
+    {
+        frames = MediaPipeReceiver.ReadSequence(sequence);
+        for (int i = 0; i < frames.Count; i++) {
+            for (int j = 0; j < frames[i].Count; j++) {
+                frames[i][j] *= MAGNIFICATION;
+            }
+        }
+
+        this.initialized = true;
+        this.sequence = sequence;
+        this.animationFrame = 0;
+    }
+
+    public void Replay()
+    {
+        this.isPlaying = true;
+        this.animationFrame = 0;
     }
 
     // Make move of joints and bones smooth.
@@ -89,41 +94,42 @@ public class StickmanCreater : MonoBehaviour
     }
 
     // Construct network relation of each joints.
-    private StickmanNode[] ConstructSkeleton(List<Vector3> joints)
+    private StickmanNode[] ConstructSkeleton()
     {
-        StickmanNode nose = new StickmanNode("nose", 0, new StickmanNode[]{}, joints);
-        StickmanNode left_eye_inner = new StickmanNode("left eye (inner)", 1, new StickmanNode[]{nose}, joints);
-        StickmanNode left_eye = new StickmanNode("left eye", 2, new StickmanNode[]{left_eye_inner}, joints);
-        StickmanNode left_eye_outer = new StickmanNode("left eye (outer)", 3, new StickmanNode[]{left_eye}, joints);
-        StickmanNode right_eye_inner = new StickmanNode("right eye (inner)", 4, new StickmanNode[]{nose}, joints);
-        StickmanNode right_eye = new StickmanNode("right eye", 5, new StickmanNode[]{right_eye_inner}, joints);
-        StickmanNode right_eye_outer = new StickmanNode("right eye (outer)", 6, new StickmanNode[]{right_eye}, joints);
-        StickmanNode left_ear = new StickmanNode("left ear", 7, new StickmanNode[]{left_eye_outer}, joints);
-        StickmanNode right_ear = new StickmanNode("right ear", 8, new StickmanNode[]{right_eye_outer}, joints);
-        StickmanNode mouth_left = new StickmanNode("mouth (left)", 9, new StickmanNode[]{}, joints);
-        StickmanNode mouth_right = new StickmanNode("mouth (right)", 10, new StickmanNode[]{mouth_left}, joints);
-        StickmanNode left_shoulder = new StickmanNode("left shoulder", 11, new StickmanNode[]{}, joints);
-        StickmanNode right_shoulder = new StickmanNode("right shoulder", 12, new StickmanNode[]{left_shoulder}, joints);
-        StickmanNode left_elbow = new StickmanNode("left elbow", 13, new StickmanNode[]{left_shoulder}, joints);
-        StickmanNode right_elbow = new StickmanNode("right elbow", 14, new StickmanNode[]{right_shoulder}, joints);
-        StickmanNode left_wrist = new StickmanNode("left wrist", 15, new StickmanNode[]{left_elbow}, joints);
-        StickmanNode right_wrist = new StickmanNode("right wrist", 16, new StickmanNode[]{right_elbow}, joints);
-        StickmanNode left_pinky = new StickmanNode("left pinky", 17, new StickmanNode[]{left_wrist}, joints);
-        StickmanNode right_pinky = new StickmanNode("right pinky", 18, new StickmanNode[]{right_wrist}, joints);
-        StickmanNode left_index = new StickmanNode("left index", 19, new StickmanNode[]{left_wrist, left_pinky}, joints);
-        StickmanNode right_index = new StickmanNode("right index", 20, new StickmanNode[]{right_wrist, right_pinky}, joints);
-        StickmanNode left_thumb = new StickmanNode("left thumb", 21, new StickmanNode[]{left_wrist}, joints);
-        StickmanNode right_thumb = new StickmanNode("right thumb", 22, new StickmanNode[]{right_wrist}, joints);
-        StickmanNode left_hip = new StickmanNode("left hip", 23, new StickmanNode[]{left_shoulder}, joints);
-        StickmanNode right_hip = new StickmanNode("right hip", 24, new StickmanNode[]{right_shoulder, left_hip}, joints);
-        StickmanNode left_knee = new StickmanNode("left knee", 25, new StickmanNode[]{left_hip}, joints);
-        StickmanNode right_knee = new StickmanNode("right knee", 26, new StickmanNode[]{right_hip}, joints);
-        StickmanNode left_ankle = new StickmanNode("left ankle", 27, new StickmanNode[]{left_knee}, joints);
-        StickmanNode right_ankle = new StickmanNode("right ankle", 28, new StickmanNode[]{right_knee}, joints);
-        StickmanNode left_heel = new StickmanNode("left heel", 29, new StickmanNode[]{left_ankle}, joints);
-        StickmanNode right_heel = new StickmanNode("right heel", 30, new StickmanNode[]{right_ankle}, joints);
-        StickmanNode left_foot_index = new StickmanNode("left foot index", 31, new StickmanNode[]{left_ankle, left_heel}, joints);
-        StickmanNode right_foot_index = new StickmanNode("right foot index", 32, new StickmanNode[]{right_ankle, right_heel}, joints);
+        StickmanNode nose = new StickmanNode("nose", 0, new StickmanNode[]{});
+        StickmanNode left_eye_inner = new StickmanNode("left eye (inner)", 1, new StickmanNode[]{nose});
+        StickmanNode left_eye = new StickmanNode("left eye", 2, new StickmanNode[]{left_eye_inner});
+        StickmanNode left_eye_outer = new StickmanNode("left eye (outer)", 3, new StickmanNode[]{left_eye});
+        StickmanNode right_eye_inner = new StickmanNode("right eye (inner)", 4, new StickmanNode[]{nose});
+        StickmanNode right_eye = new StickmanNode("right eye", 5, new StickmanNode[]{right_eye_inner});
+        StickmanNode right_eye_outer = new StickmanNode("right eye (outer)", 6, new StickmanNode[]{right_eye});
+        StickmanNode left_ear = new StickmanNode("left ear", 7, new StickmanNode[]{left_eye_outer});
+        StickmanNode right_ear = new StickmanNode("right ear", 8, new StickmanNode[]{right_eye_outer});
+        StickmanNode mouth_left = new StickmanNode("mouth (left)", 9, new StickmanNode[]{});
+        StickmanNode mouth_right = new StickmanNode("mouth (right)", 10, new StickmanNode[]{mouth_left});
+        StickmanNode left_shoulder = new StickmanNode("left shoulder", 11, new StickmanNode[]{});
+        StickmanNode right_shoulder = new StickmanNode("right shoulder", 12, new StickmanNode[]{left_shoulder});
+        StickmanNode left_elbow = new StickmanNode("left elbow", 13, new StickmanNode[]{left_shoulder});
+        StickmanNode right_elbow = new StickmanNode("right elbow", 14, new StickmanNode[]{right_shoulder});
+        StickmanNode left_wrist = new StickmanNode("left wrist", 15, new StickmanNode[]{left_elbow});
+        StickmanNode right_wrist = new StickmanNode("right wrist", 16, new StickmanNode[]{right_elbow});
+        StickmanNode left_pinky = new StickmanNode("left pinky", 17, new StickmanNode[]{left_wrist});
+        StickmanNode right_pinky = new StickmanNode("right pinky", 18, new StickmanNode[]{right_wrist});
+        StickmanNode left_index = new StickmanNode("left index", 19, new StickmanNode[]{left_wrist, left_pinky});
+        StickmanNode right_index = new StickmanNode("right index", 20, new StickmanNode[]{right_wrist, right_pinky});
+        StickmanNode left_thumb = new StickmanNode("left thumb", 21, new StickmanNode[]{left_wrist});
+        StickmanNode right_thumb = new StickmanNode("right thumb", 22, new StickmanNode[]{right_wrist});
+        StickmanNode left_hip = new StickmanNode("left hip", 23, new StickmanNode[]{left_shoulder});
+        StickmanNode right_hip = new StickmanNode("right hip", 24, new StickmanNode[]{right_shoulder, left_hip});
+        StickmanNode left_knee = new StickmanNode("left knee", 25, new StickmanNode[]{left_hip});
+        StickmanNode right_knee = new StickmanNode("right knee", 26, new StickmanNode[]{right_hip});
+        StickmanNode left_ankle = new StickmanNode("left ankle", 27, new StickmanNode[]{left_knee});
+        StickmanNode right_ankle = new StickmanNode("right ankle", 28, new StickmanNode[]{right_knee});
+        StickmanNode left_heel = new StickmanNode("left heel", 29, new StickmanNode[]{left_ankle});
+        StickmanNode right_heel = new StickmanNode("right heel", 30, new StickmanNode[]{right_ankle});
+        StickmanNode left_foot_index = new StickmanNode("left foot index", 31, new StickmanNode[]{left_ankle, left_heel});
+        StickmanNode right_foot_index = new StickmanNode("right foot index", 32, new StickmanNode[]{right_ankle, right_heel});
+
 
         return new StickmanNode[] {
             nose,
@@ -160,32 +166,5 @@ public class StickmanCreater : MonoBehaviour
             left_foot_index,
             right_foot_index
         };
-    }
-
-    IEnumerator DownloadTextFile(string url)
-    {
-        // UnityWebRequestを使用してファイルをダウンロード
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
-        {
-            // ダウンロードを開始
-            yield return request.SendWebRequest();
-
-            // エラーチェック
-            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-            else
-            {
-                // ダウンロード成功時の処理
-                sequence = request.downloadHandler.text;
-            }
-        }
-    }
-
-    public void Replay()
-    {
-        this.isPlaying = true;
-        this.animationFrame = 0;
     }
 }

@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PlayButton : MonoBehaviour
+public class ReplayButton : MonoBehaviour
 {
     [SerializeField] StickmanCreater stickmanCreater;
 
+    // This method is to be registered on Button.OnClick on Unity Editor.
     public void OnClick()
     {
         stickmanCreater.Replay();
