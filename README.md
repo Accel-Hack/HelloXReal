@@ -114,7 +114,21 @@ if (obj != null && obj.GetComponent<NRTrackableBehaviour>() != null) {
 - 手の動きを反映するには、次の操作が必要である。
   - Assets/NRSDK/Prefabs/Hands/にある、NRHand_R/Lプレハブを、シーンにあるNRInput > Right/Leftの子オブジェクトとしてシーンに配置する。
   - NRInputゲームオブジェクトのNRInputコンポーネントのInputourceTypeをHandsに変更する。
-- ハンドジェスチャーの使い方は、https://xreal.gitbook.io/nrsdk/development/hand-tracking  が参考になる
+- ハンドジェスチャーの使い方は、https://xreal.gitbook.io/nrsdk/development/hand-tracking  が参考になる。
+  - ハンドジェスチャーの種類は列挙型で定義されており、その一覧も載っている。
+
+- ハンドジェスチャーは、以下のように取得できる。
+```cs
+HandState handState = NRInput.Hands.GetHandState(HandEnum.LeftHand);
+switch (handState.currentGesture) {
+    case HandGesture.Pinch:
+        ...
+        break;
+    case HandGesture.Point:
+        ...
+        break;
+}
+```
 
 ## ストリーミングについて
 - m3u8ファイルによるストリーミングは、HISPlayerというunitypackageから行う。
@@ -204,7 +218,7 @@ IEnumerator Download(string url)  // 非同期処理の内容
 
 ### その他
 その他多くのリソース(少なくとも、prefabやfbxファイル(3Dモデルやアニメーション))は、直接ダウンロードできない(バイト列を解釈できない)。サーバー側が一度AssetBundleというパッケージにビルドしてサーバーにデプロイし、クライアント側はAssetBundleをダウンロードした後に解凍する必要がある。  
-私は、AssetBundleへのビルドは、[BuildAssetBundle](https://github.com/Accel-Hack/AssetBundleBuilder)というプロジェクトで行っている。ビルド方法は、そちらのドキュメントを参照してほしい。  
+AssetBundleへのビルドは、[BuildAssetBundle](https://github.com/Accel-Hack/AssetBundleBuilder)というプロジェクトで行っている。ビルド方法は、そちらのドキュメントを参照してほしい。  
 AssetBundleのダウンロードは、以下のように行う。  
 ```cs
 sometype SomeMethod()
@@ -289,6 +303,13 @@ public IEnumerator UploadFile(string url, string filePath)
 }
 ```
 
+textfile.txtの部分が、サーバに保存されるファイル名になる。text/plainが、送信するファイル形式にあたる。  
+
+動画ファイルは、上のコードの、
+`form.AddBinaryData("file", fileData, "textfile.txt", "text/plain");`  を
+`form.AddBinaryData("file", fileData, "video.mp4", "video/mp4");`  にすれば使える。  
+movファイルもこれで送信できる。不思議。  
+
 ## GUI　of NReal
 ~~UnityビルトインのGUIと同様に、Canvasの上にGUIを並べる仕組みである。~~
 UnityビルトインのGUIをそのまま使用できる。Canvasの上にGUIを並べることになる。  
@@ -310,10 +331,30 @@ Unity Editorにて、GameObject > UI > Scroll Viewで作成できる。
 Scroll Viewの子オブジェクトのViewportの子オブジェクトのContentが、スクロールされるオブジェクトである。これを、スクロールさせたい大きいGUIに置き換えれば良い。その後、Scroll ViewのScroll RectコンポーネントのContent変数を、置き換えたGUIに対応させる必要がある。  
 スクロールバーの大きさは、Scrollbar Horizontal / Verticalの、RectTransformコンポーネントの、height / widthから調整できる。
 
-## Android Gallary
+## Android Gallery
 Unity製Androidアプリケーションから、Androidのギャラリーにアクセスし、動画を取り出す。  
-[ここ](https://note.com/npaka/n/nc9fcedf31b33)の説明で十分だと思う。  
+[ここ](https://note.com/npaka/n/nc9fcedf31b33)の説明が参考になる。  
 ライセンスはUnityさえ満たしていれば大丈夫そう。  
+
+[GitHub](https://github.com/yasirkula/UnityNativeGallery)に、APIの説明がある。  
+動画の取得は、
+```cs
+NativeGallery.GetVideoFromGallery( MediaPickCallback callback, string title = "", string mime = "video/*" )
+```
+から行う。  
+これを呼び出すと、Androidにポップアップウィンドウが表示され、ユーザがアプリに渡す動画を選択する。  
+callbackには、string pathを受け取る関数を与える。動画の選択が終わったら、pathにそのパスを与えて、callbackが呼び出される。  
+pathはAndroid内での絶対パスなので、Application.dataPathと足したりする必要はない。  
+titleは、ポップアップウィンドウのタイトルである。  
+
+呼び出し例
+```cs
+NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((path) =>
+{
+    // pathを使った処理
+    ...
+}, "Select a video" );
+```
 
 # Project Information
 本プロジェクトの構成や実装について述べる。  
@@ -340,5 +381,10 @@ Unity製Androidアプリケーションから、Androidのギャラリーにア�
 - StickmanCreaterは、MediaPipeReceiverの出力を元に、StickmanNodeを生成し、組み合わせて、棒人間を作っている。
 
 ## シーン: GUIStickmanについて
-- StickmanLoaderが、サーバにリクエストを送り、対応する関節座標データを受け取っている。
+- AnimationSelecterは、サーバからアニメーションの一覧を受け取り、それぞれのボタンを作り、スクロールビューに並べて配置する。
+- AnimationButtonは、各インスタンスがサーバ上のアニメーション1つに対応し、ボタンが押されるとStickmanLoaderに、対応するアニメーションをロードさせる。
+- StickmanLoaderは、サーバにリクエストを送り、対応する関節座標シーケンスデータを受け取り、StickmanCreaterに反映させる。
+- GalleryReaderは、Android Galleryの動画をユーザに選択させ、そのパスをUploaderに渡す。
+- Uploaderは、受け取ったパスの動画を、サーバにアップロードする。
+- ReplayButtonは、StickmanCreaterにアニメーションを再生させる。
 - サーバはFlaskで実装しており、別プロジェクトにある。

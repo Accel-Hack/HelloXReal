@@ -10,6 +10,6 @@ public class Test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetComponent<Uploader>().UploadFile("pompompurin.txt"));
+        // StartCoroutine(GetComponent<Uploader>().UploadFile("run.mov"));
     }
 }
