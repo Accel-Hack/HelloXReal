@@ -3,6 +3,10 @@ NRSDK/
 PlaneDetectionStartPackagie/
 LowpolyFlowers/
 SandoraKa/
+/mp_server/backup/
+/mp_server/venv/
+/mp_server/videos/
+/mp_server/mediapipe/
 
 # Copy&Paste from https://github.com/github/gitignore/blob/main/Unity.gitignore
 # This .gitignore file should be placed at the root of your Unity project directory
