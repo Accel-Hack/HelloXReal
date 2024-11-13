@@ -5,11 +5,13 @@ using System;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] StickmanLoader stickmanLoader;
+    [SerializeField] AnimationSelecter animationSelecter;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        // StartCoroutine(GetComponent<Uploader>().UploadFile("run.mov"));
+        if (Input.GetKeyDown(KeyCode.X)) {
+            Debug.Log("Reload");
+            animationSelecter.SetAnimations(new List<string>(new string[]{"a", "b", "c"}));
+        }
     }
 }

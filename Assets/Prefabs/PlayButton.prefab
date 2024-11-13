@@ -146,7 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e3b8c88c4554755ad04b5d8d4d8400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stickmanLoader: {fileID: 0}
 --- !u!1 &9036437706517638391
 GameObject:
   m_ObjectHideFlags: 0

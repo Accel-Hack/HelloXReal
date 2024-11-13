@@ -28,7 +28,13 @@ public class StickmanLoader : MonoBehaviour
         // this.result is updated when the coroutine finishes.
 
         // Read json as a FileList.
-        List<string> fileList = JsonUtility.FromJson<FileList>(this.result).files;
+        this.SetAnimations(this.result);
+    }
+
+    public void SetAnimations(string files)
+    {
+        // Read json as a FileList.
+        List<string> fileList = JsonUtility.FromJson<FileList>(files).files;
         animationSelecter.SetAnimations(fileList);
     }
 
