@@ -28,7 +28,7 @@ flaskを使用して、Pythonで記述されている。
 - requirements.txt
 - README.md
 
-# Mediapipeß
+# Mediapipe
 学習済モデル(拡張子task)をロードする必要がある。  
 [このページ](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker/index)からダウンロードできる。  
 
