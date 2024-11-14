@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
-using TMPro;
 
 // Upload video file to flask server.
 public class Uploader : MonoBehaviour
 {
     [SerializeField] StickmanLoader stickmanLoader;
-    [SerializeField] TextMeshProUGUI text;
 
     // Upload a file at filePath to flask server.
     public IEnumerator UploadFile(string filePath)
@@ -27,7 +25,6 @@ public class Uploader : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("File uploaded successfully.");
-                text.text = www.downloadHandler.text;
                 stickmanLoader.SetAnimations(www.downloadHandler.text);
             }
             else

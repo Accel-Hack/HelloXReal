@@ -10,7 +10,7 @@ public class AnimationSelecter : MonoBehaviour
 
     // List of Button. Each button corresponds to a animation file (output of mediapipe).
     private List<GameObject> buttons;
-    [SerializeField] StickmanLoader stickmanLoader;
+    [SerializeField] protected StickmanLoader stickmanLoader;
     [SerializeField] GameObject animationButtonPrefab;
 
     private void Awake()
@@ -19,7 +19,7 @@ public class AnimationSelecter : MonoBehaviour
         this.buttons = new List<GameObject>();
     }
 
-    public void SetAnimations(List<string> animations)
+    public virtual void SetAnimations(List<string> animations)
     {
         // If there are already buttons, clean up them.
         foreach (GameObject button in this.buttons) {
@@ -31,7 +31,7 @@ public class AnimationSelecter : MonoBehaviour
         for (int i = 0; i < animations.Count; i++) {
             GameObject button = Instantiate(
                 animationButtonPrefab,
-                Vector3.zero,
+                transform.position,
                 transform.rotation,
                 transform
             );

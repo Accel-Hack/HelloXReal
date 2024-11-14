@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GUIStickman.unity
     guid: f62372c09e3ad44c9946c25397a2ecdf
+  - enabled: 0
+    path: Assets/Scenes/Flower.unity
+    guid: f2ab5cc9a5d024c9192631bf3ade89f2
   m_configObjects: {}

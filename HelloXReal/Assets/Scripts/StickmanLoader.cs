@@ -35,6 +35,7 @@ public class StickmanLoader : MonoBehaviour
     {
         // Read json as a FileList.
         List<string> fileList = JsonUtility.FromJson<FileList>(files).files;
+        Debug.Log("?");
         animationSelecter.SetAnimations(fileList);
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class StickmanCreater : MonoBehaviour
 {
     // Size of the stickman.
-    public const float MAGNIFICATION = 1;
+    public const float MAGNIFICATION = 0.6f;
 
     // When MAGNIFICATION is 10, the scale of sphere and cube should be 0.2f.
     public const float PREFAB_SCALE_FOR_MAGNIFICATION = 0.02f;
@@ -14,7 +14,7 @@ public class StickmanCreater : MonoBehaviour
     private const int TIMESCALE = 2;
 
     // The location of stickman.
-    public static readonly Vector3 stickmanPosition = new Vector3(0, 0, 10);
+    public static readonly Vector3 stickmanPosition = new Vector3(0, 0, 3);
     
     // output from mediapipe.
     private string sequence = null;
@@ -58,6 +58,8 @@ public class StickmanCreater : MonoBehaviour
         }
         if (this.animationFrame < (this.frames.Count - 2) * TIMESCALE) {
             this.animationFrame++;
+        } else {
+            this.animationFrame = 0;    // TODO: Remove not to loop.
         }
     }
 
@@ -72,6 +74,7 @@ public class StickmanCreater : MonoBehaviour
 
         this.initialized = true;
         this.sequence = sequence;
+        this.isPlaying = false;
         this.animationFrame = 0;
     }
 

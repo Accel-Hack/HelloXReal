@@ -133,6 +133,19 @@ switch (handState.currentGesture) {
 }
 ```
 
+### 録画
+ARグラスに映っている画面を録画できる。  
+UnityEditorからAssets/NRSDK/DemosにあるRGB Camera-Recordシーンを開き、VideoCaptureExampleゲームオブジェクトを、録画したいシーンにコピペする。このゲームオブジェクトは録画関連のUIであり、赤いボタンを押すと、ボタンが緑の間、録画が行われる。 
+
+#### 権限の追加
+権限がない場合、赤いボタンを押した時にエラーメッセージが表示される。この場合、表示されている権限(android.permission.RECORD_AUDIOなど)をAndroidManifest.xmlに追加する必要がある。AndroidManifest.xmlを編集するには、UnityEditor画面上のEdit > Project Settingsを選択し、Player設定のCustom Main Manifestにチェックをつけ、その下に表示されているパスにあるAndroidManifest.xmlを編集する。例えば、manifest直下に、次を追加する。  
+`<uses-permission android:name="android.permission.RECORD_AUDIO" />`  
+
+#### 録画ファイルの取得
+`adb pull <path_to_file_in_android>`  で取得できる。  
+録画ファイルは、`/sdcard/Android/data/com.<company_name>.<product_name>/files`  にある。  
+company_nameとproduct_nameは、Project SettingsのPlayer設定から確認・編集できる。  
+
 ## ストリーミングについて
 - m3u8ファイルによるストリーミングは、HISPlayerというunitypackageから行う。
   - m3u8は、一般的な動画ストリーミング用フォーマットである。

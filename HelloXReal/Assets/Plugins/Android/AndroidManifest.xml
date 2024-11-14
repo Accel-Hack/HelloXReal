@@ -10,4 +10,5 @@
     <meta-data android:name="com.nreal.supportDevices" android:value="1|NrealLight|2|NrealAir" />
   </application>
   <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
 </manifest>

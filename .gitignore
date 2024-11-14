@@ -5,6 +5,7 @@ LowpolyFlowers/
 SandoraKa/
 /mp_server/backup/
 /mp_server/venv/
+/mp_server/.venv/
 /mp_server/videos/
 /mp_server/mediapipe/
 

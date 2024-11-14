@@ -22,6 +22,6 @@ public class AnimationButton : MonoBehaviour
     public void DecideAnimation()
     {
         string url = "http://192.168.50.110:8000/download_animation/" + this.fileName;
-        StartCoroutine(stickmanLoader.LoadAnimation(url));
+        StartCoroutine(stickmanLoader.LoadAnimation(url)); 
     }
 }
