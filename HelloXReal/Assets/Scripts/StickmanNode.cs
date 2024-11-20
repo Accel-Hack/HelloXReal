@@ -19,7 +19,7 @@ public class StickmanNode
         }
     }
 
-    private const float BONE_THICKNESS = 0.5f;
+    private const float BONE_THICKNESS = 4f;
     private string name;
     private int id;
     private GameObject sphere;
