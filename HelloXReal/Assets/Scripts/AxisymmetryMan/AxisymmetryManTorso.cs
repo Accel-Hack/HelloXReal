@@ -9,8 +9,14 @@ public class AxisymmetryManTorso : AxisymmetryManPart
     {
         Vector3 front = Vector3.Cross(leftShoulder - rightShoulder, waist - rightShoulder);
         Vector3 up = (rightShoulder + leftShoulder) / 2 - waist;
-        Vector3 right = Vector3.Cross(up, front);
-        Debug.Log(front);
-        Debug.Log(right);
+        Vector3 right = rightShoulder - leftShoulder;
+        float xScale = right.magnitude * 0.9f;
+        float yScale = up.magnitude;
+        float zScale = xScale / 3;
+        Vector3 position = (rightShoulder + leftShoulder + waist) / 3;
+
+        transform.localPosition = position;
+        transform.rotation = Quaternion.LookRotation(front, up);
+        transform.localScale = new Vector3(xScale, yScale, zScale);
     }
 }

@@ -5,12 +5,13 @@ using UnityEngine;
 public class AxisyTest : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private IEnumerator Start()
     {
-        AxisymmetryManTorso torso = FindObjectOfType<AxisymmetryManTorso>();
-        Vector3 rightShoulder = new(1, 1, 0);
-        Vector3 leftShoulder = new(-1, 1, 0);
-        Vector3 weist = new(0, -1, 0);
-        torso.Place(rightShoulder, leftShoulder, weist);
+        SequenceLoader loader = FindObjectOfType<SequenceLoader>();
+        yield return loader.LoadSequence("http://192.168.50.110:8000/download_animation/video5.txt");
+        List<List<Vector3>> sequence = loader.GetSequence();
+        AxisymmetryMan axisy = FindObjectOfType<AxisymmetryMan>();
+        axisy.SetSequence(sequence);
+        axisy.Play();
     }
 }
