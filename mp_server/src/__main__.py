@@ -61,7 +61,7 @@ def get_files_json():
     # Get data as txt.
     files = [f for f in os.listdir(directory_path) if f.endswith('.txt')]
     
-    return flask.jsonify({'files': files})
+    return flask.jsonify({'sequenceNameList': files})
 
 @app.route('/download_animation/<string:file>', methods=['GET'])
 def download_animation(file):

@@ -7,6 +7,7 @@ using System.IO;
 public class UploadButtonAxisy : MonoBehaviour
 {
     [SerializeField] AxisymmetryMan axisy;
+    [SerializeField] SequenceListAxisy sequenceList;
 
     // Called with OnClick event of UploadButton.
     public void OnClick()
@@ -42,8 +43,7 @@ public class UploadButtonAxisy : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("File uploaded successfully.");
-                // stickmanLoader.SetAnimations(www.downloadHandler.text);
-                // TODO: After refactor scroll view.
+                this.sequenceList.ReplaceButtons(www.downloadHandler.text);
             }
             else
             {

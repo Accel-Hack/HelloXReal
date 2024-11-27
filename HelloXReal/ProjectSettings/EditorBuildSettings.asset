@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/GUIStickman.unity
-    guid: f62372c09e3ad44c9946c25397a2ecdf
   - enabled: 0
     path: Assets/Scenes/Flower.unity
     guid: f2ab5cc9a5d024c9192631bf3ade89f2
+  - enabled: 1
+    path: Assets/Scenes/AxisymmetryMan.unity
+    guid: 4cfe97bc4799448f2a27d9cf2ccc82be
   m_configObjects: {}

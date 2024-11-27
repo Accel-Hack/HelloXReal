@@ -12,7 +12,7 @@ public class SequenceLoader : MonoBehaviour
         Coroutine coroutine = StartCoroutine(DownloadText(url));
         yield return coroutine;
 
-        // this.loadedString is updated when the coroutine finishes.
+        // this.loadedSequenceString is updated when the coroutine finishes.
     }
 
     private IEnumerator DownloadText(string url)
