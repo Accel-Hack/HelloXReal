@@ -3,6 +3,7 @@ from flask import Flask, request            # type: ignore
 from werkzeug.utils import secure_filename  # type: ignore
 import os
 
+import low_pass_filter                      # type: ignore
 import video_mediapipe                      # type: ignore
 
 UPLOAD_FOLDER = './videos'
@@ -43,6 +44,7 @@ def upload_file():
             file.save(file_path)
 
             sequence = video_mediapipe.detect_joints_from_video(file_path)
+            sequence = low_pass_filter.low_pass_filter(sequence)
 
             with open(f"./mediapipe/{save_name}.txt", "a") as f:
                 f.write(str(sequence))
