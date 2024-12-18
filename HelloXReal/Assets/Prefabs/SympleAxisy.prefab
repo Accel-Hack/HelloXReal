@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8295634633147363549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6526870432274304800}
+  - component: {fileID: -4182305921666599975}
+  m_Layer: 0
+  m_Name: SympleAxisy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6526870432274304800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8295634633147363549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4182305921666599975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8295634633147363549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6258553063344f8bb7c5dd7fc02a447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  torsoPrefab: {fileID: 3193010336699585038, guid: c0057f20ee14e47448010bfcbea72366, type: 3}
+  limbPrefab: {fileID: 2099109084943435250, guid: 35f595e0da7c0456783250155a4075de, type: 3}
+  fingerNeckPrefab: {fileID: 6308885427386499588, guid: 34645050b55434292b6cdaad8e549dd5, type: 3}
+  feetPrefab: {fileID: 6631739613178403236, guid: 238f3a49d611f409f943ebeb874671df, type: 3}
+  headPrefab: {fileID: 3193010336699585038, guid: 7ce4b912b6d0544818e910fbd4aeed9e, type: 3}

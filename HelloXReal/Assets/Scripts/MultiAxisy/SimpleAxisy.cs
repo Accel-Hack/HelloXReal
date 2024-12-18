@@ -2,16 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxisymmetryMan : MonoBehaviour
+public class SimpleAxisy : MonoBehaviour
 {
-    // The speed to play posing animation.
-    private const int TIMESCALE = 2;
-
-    private bool isPlaying = false;
-    private int currentFrameIdx = 0;    // Index in sequence posing now.
-
-    private List<List<Vector3>> playingSequence = null;
-
     [SerializeField] GameObject torsoPrefab;
     [SerializeField] GameObject limbPrefab;
     [SerializeField] GameObject fingerNeckPrefab;   // Prefab of finger and neck.
@@ -38,24 +30,9 @@ public class AxisymmetryMan : MonoBehaviour
     private AxisymmetryManHead head;
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         Initialize();
-    }
-
-    // FixedUpdate is called in every fixed timestep
-    private void FixedUpdate()
-    {
-        if (!this.isPlaying) {
-            return;
-        }
-        List<Vector3> leapedFrame = this.LeapedFrame((float) this.currentFrameIdx / TIMESCALE);
-        this.Pose(leapedFrame);
-        if (this.currentFrameIdx < (this.playingSequence.Count - 2) * TIMESCALE) {
-            this.currentFrameIdx++;
-        } else {
-            this.currentFrameIdx = 0;    // TODO: Remove not to loop.
-        }
     }
 
     private void Initialize()
@@ -78,39 +55,6 @@ public class AxisymmetryMan : MonoBehaviour
         this.leftFeet  = Instantiate(feetPrefab, transform).GetComponent<AxisymmetryManFeet>();
         this.rightFeet = Instantiate(feetPrefab, transform).GetComponent<AxisymmetryManFeet>();
         this.head = Instantiate(headPrefab, transform).GetComponent<AxisymmetryManHead>();
-    }
-
-    public void SetSequence(List<List<Vector3>> sequence)
-    {
-        this.playingSequence = sequence;
-        this.isPlaying = false;
-        this.currentFrameIdx = 0;
-    }
-
-    public void Play()
-    {
-        if (this.playingSequence == null) {
-            Debug.LogError("Sequence hasn't been loaded yet...");
-            return;
-        }
-        this.isPlaying = true;
-        this.currentFrameIdx = 0;
-    }
-
-    // Make move of joints and bones smooth.
-    private List<Vector3> LeapedFrame(float floatIndex)
-    {
-        List<Vector3> leapedFrame = new List<Vector3>();
-        float rate = floatIndex % 1;
-        for (int i = 0; i < this.playingSequence[0].Count; i++) {
-            Vector3 joint = Vector3.Lerp(
-                this.playingSequence[(int)Mathf.Floor(floatIndex)][i], 
-                this.playingSequence[(int)Mathf.Ceil(floatIndex)][i], 
-                rate
-                );
-            leapedFrame.Add(joint);
-        }
-        return leapedFrame;
     }
 
     public void Pose(List<Vector3> frame)

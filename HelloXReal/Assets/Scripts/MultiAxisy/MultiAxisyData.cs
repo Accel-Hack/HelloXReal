@@ -1,11 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+// Data of pose of a person at a frame.
+// Dummy PersonFrameData can exist. It is filled with 1 binary.
 public class PersonFrameData
 {
     public const int JOINT_NUM = 33;
+    private const int RIGHT_HIP_IDX = 23;
+    private const int LEFT_HIP_IDX = 24;
     public const int SIZE = 2 * (4 + 3 * JOINT_NUM);
 
     private ushort x0;
@@ -35,13 +40,31 @@ public class PersonFrameData
             if (x != -1) this.isSeparator = false;
             if (y != -1) this.isSeparator = false;
             if (z != -1) this.isSeparator = false;
-            this.joints[i] = new Vector3(x, y, z);
-        }     
+
+            // Output of Mediapipe is upside down...
+            this.joints[i] = new Vector3(x, -y, z);
+        }
+
+        Vector3 localCenter = (this.joints[RIGHT_HIP_IDX] + this.joints[LEFT_HIP_IDX]) / 2;
+        for (int i = 0; i < JOINT_NUM; i++) {
+            // Normalize joints' positions for center of hip.
+            this.joints[i] -= localCenter;
+        }
     }
 
     public bool IsSeparator()
     {
         return this.isSeparator;
+    }
+
+    public List<Vector3> GetPose()
+    {
+        return new List<Vector3>(this.joints);
+    }
+
+    public Vector3 GetCenterInImage()
+    {
+        return new Vector3((this.x0 + this.x1) / 2, (this.y0 + this.y1) / 2, 0);
     }
 }
 
@@ -53,6 +76,27 @@ public class FrameData
     {
         this.personFrameDatas = personFrameDatas;
     }
+
+    public int GetPersonNum()
+    {
+        return this.personFrameDatas.Count;
+    }
+
+    public List<Vector3> GetPose(int personIdx)
+    {
+        if (personIdx >= this.GetPersonNum()) {
+            return null;
+        }
+        return this.personFrameDatas[personIdx].GetPose();
+    }
+
+    public Vector3? GetCenterInImage(int personIdx)
+    {
+        if (personIdx >= this.GetPersonNum()) {
+            return null;
+        }
+        return this.personFrameDatas[personIdx].GetCenterInImage();
+    }
 }
 
 public class VideoData
@@ -61,18 +105,41 @@ public class VideoData
 
     public VideoData(byte[] bytes)
     {
+        // Encode binary data to VideoData.
         List<PersonFrameData> personFrameDatas = new List<PersonFrameData>();
         for (int i = 0; i < bytes.Length / PersonFrameData.SIZE; i++)
         {
             int personStartIndex = i * PersonFrameData.SIZE;
-            PersonFrameData personFrameData = PersonFrameData(bytes, personStartIndex);
+            PersonFrameData personFrameData = new PersonFrameData(bytes, personStartIndex);
             if (personFrameData.IsSeparator())
             {
-                this.frameDatas.Add(FrameData(personFrameDatas));
+                this.frameDatas.Add(new FrameData(personFrameDatas));
                 personFrameDatas = new List<PersonFrameData>();
             } else {
                 personFrameDatas.Add(personFrameData);
             }
         }
+    }
+
+    public int GetMaxPersonNum()
+    {
+        int max = 0;
+        foreach (FrameData frameData in this.frameDatas) {
+            int personNum = frameData.GetPersonNum();
+            if (max < personNum) {
+                max = personNum;
+            }
+        }
+        return max;
+    }
+
+    public List<Vector3> GetPose(int personIdx, int animationFrameCount)
+    {
+        return this.frameDatas[animationFrameCount].GetPose(personIdx);
+    }
+
+    public Vector3? GetCenterInImage(int personIdx, int animationFrameCount)
+    {
+        return this.frameDatas[animationFrameCount].GetCenterInImage(personIdx);
     }
 }
