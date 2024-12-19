@@ -12,12 +12,18 @@ public class MultiSequenceMain : MonoBehaviour
 
     private VideoData videoData = null;
 
+    private Vector3 firstPeopleCenter = Vector3.zero;
+    private readonly Vector3 peopleCenterWorld = new Vector3(0, 0, 5);
+
     void Start()
     {
         TextAsset textAsset = Resources.Load("sequence") as TextAsset;
         byte[] bytes = textAsset.bytes;
 
         this.videoData = new VideoData(bytes);
+
+        Vector3 firstPeopleCenter = this.videoData.GetFirstPeopleCenter();
+        this.firstPeopleCenter = new Vector3(firstPeopleCenter.x, 0, firstPeopleCenter.y);
 
         this.axisies = new SimpleAxisy[videoData.GetMaxPersonNum()];
 
@@ -41,7 +47,7 @@ public class MultiSequenceMain : MonoBehaviour
                     0,
                     centerInImage.Value.y
                 );
-                this.axisies[i].transform.position = centerInWorld;
+                this.axisies[i].transform.position = centerInWorld - this.firstPeopleCenter + this.peopleCenterWorld;
             } else {
                 this.axisies[i].gameObject.SetActive(false);
             }

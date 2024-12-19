@@ -19,6 +19,8 @@ public class PersonFrameData
     private ushort y1;
     private Vector3[] joints = new Vector3[JOINT_NUM];
 
+    private float size = 0;
+
     private bool isSeparator = true;
 
     public PersonFrameData(byte[] bytes, int startIndex)
@@ -47,7 +49,7 @@ public class PersonFrameData
 
         Vector3 localCenter = (this.joints[RIGHT_HIP_IDX] + this.joints[LEFT_HIP_IDX]) / 2;
         for (int i = 0; i < JOINT_NUM; i++) {
-            // Normalize joints' positions for center of hip.
+            // Standardize joints' positions for center of hip.
             this.joints[i] -= localCenter;
         }
     }
@@ -64,7 +66,20 @@ public class PersonFrameData
 
     public Vector3 GetCenterInImage()
     {
-        return new Vector3((this.x0 + this.x1) / 2, (this.y0 + this.y1) / 2, 0);
+        return new Vector3((this.x0 + this.x1) / 2 / this.size, (this.y0 + this.y1) / 2 / this.size, 0);
+    }
+
+    public float GetSize()
+    {
+        return (this.joints[RIGHT_HIP_IDX] - this.joints[LEFT_HIP_IDX]).sqrMagnitude;
+    }
+
+    public void Normalize(float size)
+    {
+        for (int i = 0; i < this.joints.Length; i++) {
+            this.joints[i] /= size;
+        }
+        this.size = size;
     }
 }
 
@@ -97,11 +112,30 @@ public class FrameData
         }
         return this.personFrameDatas[personIdx].GetCenterInImage();
     }
+
+    public Vector3 GetPeopleCenter()
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (PersonFrameData personFrameData in this.personFrameDatas) {
+            sum += personFrameData.GetCenterInImage();
+        }
+        return sum / personFrameDatas.Count;
+    }
+
+    public void Normalize(float size)
+    {
+        foreach (PersonFrameData personFrameData in this.personFrameDatas) {
+            personFrameData.Normalize(size);
+        }
+    }
 }
 
 public class VideoData
 {
     private List<FrameData> frameDatas = new List<FrameData>();
+
+    // Size of first person.
+    private float size = 0;
 
     public VideoData(byte[] bytes)
     {
@@ -117,8 +151,12 @@ public class VideoData
                 personFrameDatas = new List<PersonFrameData>();
             } else {
                 personFrameDatas.Add(personFrameData);
+                if (this.size == 0) {
+                    this.size = personFrameData.GetSize();
+                }
             }
         }
+        this.Normalize();
     }
 
     public int GetMaxPersonNum()
@@ -141,5 +179,18 @@ public class VideoData
     public Vector3? GetCenterInImage(int personIdx, int animationFrameCount)
     {
         return this.frameDatas[animationFrameCount].GetCenterInImage(personIdx);
+    }
+
+    // Called for first frame.
+    public Vector3 GetFirstPeopleCenter()
+    {
+        return this.frameDatas[0].GetPeopleCenter();
+    }
+
+    private void Normalize()
+    {
+        foreach (FrameData frameData in this.frameDatas) {
+            frameData.Normalize(this.size);
+        }
     }
 }
