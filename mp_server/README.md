@@ -3,7 +3,8 @@
 
 # Overview
 本プログラムは、`../HelloXReal`  で開発しているAndroidアプリケーションが利用するサーバである。  
-flaskを使用して、Pythonで記述されている。  
+[Flask公式ドキュメント](https://flask.palletsprojects.com/en/stable/)を使用して、Pythonで記述されている。  
+[Flask非公式日本語ドキュメント](https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/)  
 主な機能は、以下である。  
 - Androidアプリケーションから動画のアップロードを受け付ける。
 - 動画がアップロードされたとき、mediapipeを走らせ、関節座標群の時系列データ(以下、シーケンス)を作り、保存する。
@@ -29,6 +30,7 @@ flaskを使用して、Pythonで記述されている。
 - README.md
 
 # Mediapipe
+[公式ドキュメント](https://ai.google.dev/edge/mediapipe/solutions/guide?hl=ja)  
 学習済モデル(拡張子task)をロードする必要がある。  
 [このページ](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker/index)からダウンロードできる。  
 

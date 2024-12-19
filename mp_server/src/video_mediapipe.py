@@ -4,7 +4,7 @@ import sys
 
 def detect_joints_from_video(video_path):
     # Load trained model
-    model_path = "pose_landmarker_full.task"
+    model_path = "resource/pose_landmarker_full.task"
 
     # Setting based on
     # https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker/python?hl=ja#video
