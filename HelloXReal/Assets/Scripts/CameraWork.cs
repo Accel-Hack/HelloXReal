@@ -16,7 +16,9 @@ public class CameraWork : MonoBehaviour
         foreach(Touch touch in Input.touches)
         {
             if (touch.position.x < Screen.width / 2) {
-                transform.position += new Vector3(touch.deltaPosition.x, 0, touch.deltaPosition.y) * 0.01f;
+                transform.Translate(Time.deltaTime * 0.1f * new Vector3(touch.deltaPosition.x, 0, touch.deltaPosition.y), Space.Self);
+            } else {
+                transform.Rotate(Time.deltaTime * touch.deltaPosition.x * Vector3.up, Space.Self);
             }
         }
     }

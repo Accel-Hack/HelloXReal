@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MultiAxisyDemo.unity
     guid: 5aeac650261dc45d68b42db33b6b9fce
+  - enabled: 0
+    path: Assets/Scenes/YoloOnly.unity
+    guid: 73c2386e0ede54e73ac8b4c3420fa8ad
   m_configObjects: {}
