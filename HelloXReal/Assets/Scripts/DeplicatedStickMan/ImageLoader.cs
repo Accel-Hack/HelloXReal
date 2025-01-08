@@ -28,7 +28,7 @@ public class ImageLoader : MonoBehaviour
             yield return webRequest.SendWebRequest();
 
             // エラーチェック
-            if (webRequest.isNetworkError || webRequest.isHttpError)
+            if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Error loading image: " + webRequest.error);
             }

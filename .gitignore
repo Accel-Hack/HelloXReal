@@ -8,6 +8,16 @@ SandoraKa/
 /mp_server/.venv/
 /mp_server/videos/
 /mp_server/mediapipe/
+/yolomp_server/backup/
+/yolomp_server/venv/
+/yolomp_server/.venv/
+/yolomp_server/videos/
+/yolomp_server/sequences/
+/yolomp_server/results/
+/yolomp_server/output.mov
+/yolomp_server/resource/
+/yolomp_server/yolox/
+.pytest_cache
 
 # Copy&Paste from https://github.com/github/gitignore/blob/main/Unity.gitignore
 # This .gitignore file should be placed at the root of your Unity project directory

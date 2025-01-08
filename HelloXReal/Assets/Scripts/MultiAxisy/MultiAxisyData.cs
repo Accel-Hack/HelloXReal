@@ -193,4 +193,9 @@ public class VideoData
             frameData.Normalize(this.size);
         }
     }
+
+    public bool FrameExists(int animationFrameCount)
+    {
+        return animationFrameCount < this.frameDatas.Count;
+    }
 }
