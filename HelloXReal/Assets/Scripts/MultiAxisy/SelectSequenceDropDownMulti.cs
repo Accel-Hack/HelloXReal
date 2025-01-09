@@ -28,6 +28,8 @@ public class SelectSequenceDropDownMulti : MonoBehaviour
     private SequenceLoaderMulti sequenceLoader;
     private PlayButtonMulti playButton;
 
+    private string uploadingSequenceName = "";
+
     private void Start()
     {
         this.dropdown = GetComponent<TMP_Dropdown>();
@@ -67,7 +69,7 @@ public class SelectSequenceDropDownMulti : MonoBehaviour
         }
     }
 
-    private void ReflectSequenceList(string sequenceListString)
+    public void ReflectSequenceList(string sequenceListString)
     {
         // sequenceListString is JSON format.
         // Read json as a FileList instance.
@@ -92,5 +94,15 @@ public class SelectSequenceDropDownMulti : MonoBehaviour
             this.sequenceLoader.LoadSequence(sequenceName);
             Debug.Log("sequenceName: " + sequenceName);
         }   
+    }
+
+    public void RecordUploadingSequenceName(string name)
+    {
+        this.uploadingSequenceName = name;
+    }
+
+    public bool IsUploading(string sequenceName)
+    {
+        return this.uploadingSequenceName == sequenceName;
     }
 }

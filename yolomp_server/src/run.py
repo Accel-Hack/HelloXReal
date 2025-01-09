@@ -42,10 +42,10 @@ def upload_file():
             file_path = app.config["UPLOAD_FOLDER"] + f"/{save_name}.{video_extension}"
             file.save(file_path)
 
-            sequence = pose_estimation.main("mps", file_path, "./results/debug.mov")
+            sequence = pose_estimation.estimate("mps", file_path, "./results/debug.mov")
 
-            with open(f"./sequences/{save_name}.txt", "a") as f:
-                f.write(str(sequence))
+            with open(f"./sequences/{save_name}.txt", "wb") as f:
+                f.write(sequence)
 
             return get_files_json()
     return 'For POST request...'

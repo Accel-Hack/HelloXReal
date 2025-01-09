@@ -78,4 +78,16 @@ public class SequenceLoaderMulti : MonoBehaviour
     {
         return this.loadedDatas[this.currentIndex].videoData;
     }
+
+    public LoadedDataMulti.Status GetSequenceStatus(string sequenceName)
+    {
+        foreach (LoadedDataMulti data in this.loadedDatas)
+        {
+            if (data.sequenceName == sequenceName)
+            {
+                return data.currentStatus;
+            }
+        }
+        return LoadedDataMulti.Status.Loadable;
+    }
 }

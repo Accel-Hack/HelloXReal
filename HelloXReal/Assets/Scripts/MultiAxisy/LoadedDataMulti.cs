@@ -9,6 +9,7 @@ public class LoadedDataMulti
     public string sequenceName;
 
     public enum Status {
+        Loadable,
         Loading,
         Loaded
     }

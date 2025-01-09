@@ -71,7 +71,7 @@ public class PersonFrameData
 
     public float GetSize()
     {
-        return (this.joints[RIGHT_HIP_IDX] - this.joints[LEFT_HIP_IDX]).sqrMagnitude;
+        return (this.joints[RIGHT_HIP_IDX] - this.joints[LEFT_HIP_IDX]).magnitude;
     }
 
     public void Normalize(float size)
@@ -157,6 +157,7 @@ public class VideoData
             }
         }
         this.Normalize();
+        Debug.Log("Size: " + this.frameDatas.Count);
     }
 
     public int GetMaxPersonNum()

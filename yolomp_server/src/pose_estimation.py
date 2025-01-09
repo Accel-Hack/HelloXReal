@@ -71,10 +71,6 @@ def estimate(device_name, input_path, output_path):
 
     encoded_bytes = video_data.encode()
 
-    # To be removed
-    with open("sequence.txt", "wb") as f:
-        f.write(encoded_bytes)
-
     return encoded_bytes
 
 if __name__ == "__main__":
