@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraWork : MonoBehaviour
 {
+    private const float MOVE_SPEED = 0.05f;
+    private const float ROTATE_SPEED = 0.5f;
     private Vector2 leftStartPosition = Vector2.zero;
     private Vector2 rightStartPosition = Vector2.zero;
 
@@ -26,7 +28,7 @@ public class CameraWork : MonoBehaviour
                         break;
                     case TouchPhase.Moved:
                         Vector2 delta = touch.position - this.leftStartPosition;
-                        transform.Translate(Time.deltaTime * 0.05f * new Vector3(delta.x, 0, delta.y), Space.Self);
+                        transform.Translate(Time.deltaTime * MOVE_SPEED * new Vector3(delta.x, 0, delta.y), Space.Self);
                         break;
                 }
             } else {
@@ -37,7 +39,7 @@ public class CameraWork : MonoBehaviour
                         break;
                     case TouchPhase.Moved:
                         Vector2 delta = touch.position - this.rightStartPosition;
-                        transform.Rotate(Time.deltaTime * delta.x * Vector3.up, Space.Self);
+                        transform.Rotate(Time.deltaTime * ROTATE_SPEED * delta.x * Vector3.up, Space.Self);
                         break;
                 }
             }
